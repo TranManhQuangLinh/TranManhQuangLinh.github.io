@@ -1,6 +1,7 @@
 const searchElement = document.querySelector('.search'),
     searchInput = searchElement.querySelector('input'),
     removeIcon = searchElement.querySelector('span'),
+    searchButton = document.querySelector('.search-button').querySelector('button'),
     meanLike = document.querySelector('#mean_like'),
     spellLike = document.querySelector('#spell_like'),
     antonyms = document.querySelector('#antonyms'),
@@ -21,17 +22,24 @@ function data(result, word) {
 
     } else {
         if (meanLike.classList.contains('active')) {
-            infoText.innerHTML = `Các từ đồng nghĩa tìm được`
+            infoText.innerHTML = `Các từ đồng nghĩa tìm được:`
         }
         else if (spellLike.classList.contains('active')) {
-            infoText.innerHTML = `Các từ đồng âm tìm được`
+            infoText.innerHTML = `Các từ đồng âm tìm được:`
         }
         else if (antonyms.classList.contains('active')) {
-            infoText.innerHTML = `Các từ trái nghĩa tìm được`
+            infoText.innerHTML = `Các từ trái nghĩa tìm được:`
         }
         let words = ''
         for (let i = 0; i < result.length; i++) {
-            words += i != result.length - 1 ? result[i].word + ', ' : result[i].word
+            let definition = result[i].defs.split(',').join('\n')
+            words += 
+            `
+                <li>
+                    <p>${result[i].word}</p>
+                    <span>${definition}</span>
+                </li>\n
+            `
         }
         resultElement.innerHTML = words
     }
@@ -40,27 +48,27 @@ function data(result, word) {
 function fetchApi(word) {
     infoText.style.color = "#000";
     if (meanLike.classList.contains('active')) {
-        let url = `https://api.datamuse.com/words?ml=${word}`;
+        let url = `https://api.datamuse.com/words?ml=${word}&qe=ml&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
             .catch(() => {
-                alert('Failed to load data from API')
+                infoText.innerHTML = 'Failed to load data from API'
             })
     }
     else if (spellLike.classList.contains('active')) {
-        let url = `https://api.datamuse.com/words?sp=${word}`;
+        let url = `https://api.datamuse.com/words?sp=${word}&qe=sp&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
             .catch(() => {
-                alert('Failed to load data from API')
+                infoText.innerHTML = 'Failed to load data from API'
             })
     }
     else if (antonyms.classList.contains('active')) {
-        let url = `https://api.datamuse.com/words?rel_ant=${word}`;
+        let url = `https://api.datamuse.com/words?rel_ant=${word}&qe=rel_ant&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
             .catch(() => {
-                alert('Failed to load data from API')
+                infoText.innerHTML = 'Failed to load data from API'
             })
     }
 }
@@ -68,6 +76,14 @@ function fetchApi(word) {
 searchInput.addEventListener("keyup", e => {
     let word = e.target.value.replace(/\s+/g, ' ');
     if (e.key == "Enter" && word) {
+        resultElement.innerHTML = ''
+        fetchApi(word);
+    }
+})
+
+searchButton.addEventListener("click", e => {
+    let word = searchInput.value.replace(/\s+/g, ' ');
+    if (word) {
         resultElement.innerHTML = ''
         fetchApi(word);
     }
