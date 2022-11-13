@@ -39,6 +39,9 @@ function data(result, word) {
                 for(let j = 0; j < result[i].defs.length; j++){
                     definition += result[i].defs[j] + `; \n`
                 }
+            else{
+                definition = result[i].defs[0]
+            }
             words += 
             `
                 <li>
