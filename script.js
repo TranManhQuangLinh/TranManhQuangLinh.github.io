@@ -36,15 +36,16 @@ function data(result, word) {
             if(result[i].defs == undefined)
                 definition = 'undefined'
             else if(result[i].defs.length > 1)
-                for(let i = 0; i < result[i].defs.length; i++)
-                definition += result[i].defs[i] + `; \n`
-            words += 
-            `
-                <li>
-                    <p>${result[i].word}</p>
-                    <span>${definition}</span>
-                </li>\n
-            `
+                for(let j = 0; j < result[j].defs.length; j++){
+                    definition += result[i].defs[j] + `; \n`
+                }
+                words += 
+                `
+                    <li>
+                        <p>${result[i].word}</p>
+                        <span>${definition}</span>
+                    </li>\n
+                `
         }
         resultElement.innerHTML = words
     }
