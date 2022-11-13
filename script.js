@@ -53,6 +53,7 @@ function fetchApi(word) {
             .then(result => data(result, word))
             .catch(() => {
                 infoText.innerHTML = 'Failed to load data from API'
+                alert('Failed to load data from API')
             })
     }
     else if (spellLike.classList.contains('active')) {
@@ -61,6 +62,7 @@ function fetchApi(word) {
             .then(result => data(result, word))
             .catch(() => {
                 infoText.innerHTML = 'Failed to load data from API'
+                alert('Failed to load data from API')
             })
     }
     else if (antonyms.classList.contains('active')) {
@@ -69,6 +71,7 @@ function fetchApi(word) {
             .then(result => data(result, word))
             .catch(() => {
                 infoText.innerHTML = 'Failed to load data from API'
+                alert('Failed to load data from API')
             })
     }
 }
