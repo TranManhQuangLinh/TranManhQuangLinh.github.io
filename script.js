@@ -36,16 +36,16 @@ function data(result, word) {
             if(result[i].defs == undefined)
                 definition = 'undefined'
             else if(result[i].defs.length > 1)
-                for(let j = 0; j < result[j].defs.length; j++){
+                for(let j = 0; j < result[i].defs.length; j++){
                     definition += result[i].defs[j] + `; \n`
                 }
-                words += 
-                `
-                    <li>
-                        <p>${result[i].word}</p>
-                        <span>${definition}</span>
-                    </li>\n
-                `
+            words += 
+            `
+                <li>
+                    <p>${result[i].word}</p>
+                    <span>${definition}</span>
+                </li>\n
+            `
         }
         resultElement.innerHTML = words
     }
@@ -54,7 +54,7 @@ function data(result, word) {
 function fetchApi(word) {
     infoText.style.color = "#000";
     if (meanLike.classList.contains('active')) {
-        let url = `https://api.datamuse.com/words?ml=${word}&qe=ml&md=dp`;
+        let url = `https://api.datamuse.com/words?rel_syn=${word}&qe=rel_syn&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
             .catch((e) => {
