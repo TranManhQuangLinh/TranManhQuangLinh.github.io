@@ -32,7 +32,12 @@ function data(result, word) {
         }
         let words = ''
         for (let i = 0; i < result.length; i++) {
-            let definition = result[i].defs.split(',').join('\n')
+            let definition = ''
+            if(result[i].defs == undefined)
+                definition = 'undefined'
+            else if(result[i].defs.length > 1)
+                for(let i = 0; i < result[i].defs.length; i++)
+                definition += result[i].defs[i] + `; \n`
             words += 
             `
                 <li>
@@ -51,27 +56,30 @@ function fetchApi(word) {
         let url = `https://api.datamuse.com/words?ml=${word}&qe=ml&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
-            .catch(() => {
+            .catch((e) => {
                 infoText.innerHTML = 'Failed to load data from API'
                 alert('Failed to load data from API')
+                console.log(e)
             })
     }
     else if (spellLike.classList.contains('active')) {
         let url = `https://api.datamuse.com/words?sp=${word}&qe=sp&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
-            .catch(() => {
+            .catch((e) => {
                 infoText.innerHTML = 'Failed to load data from API'
                 alert('Failed to load data from API')
+                console.log(e)
             })
     }
     else if (antonyms.classList.contains('active')) {
         let url = `https://api.datamuse.com/words?rel_ant=${word}&qe=rel_ant&md=dp`;
         fetch(url).then(response => response.json())
             .then(result => data(result, word))
-            .catch(() => {
+            .catch((e) => {
                 infoText.innerHTML = 'Failed to load data from API'
                 alert('Failed to load data from API')
+                console.log(e)
             })
     }
 }
