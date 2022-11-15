@@ -7,9 +7,17 @@ header {
     width: 100%;
 }
 
+.navbar-brand{
+    margin-right: -4rem;
+}
+
 .nav-item {
     width: 33.33%;
     text-align: center;
+}
+
+.navbar-nav .nav-link.active{
+    color:#00BFFF
 }
 
 .search {
@@ -80,11 +88,13 @@ header {
     word-wrap: break-word;
 }
 
-.container ol li p {
+.result-word{
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 0;
     color: #3366FF;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .container li span {

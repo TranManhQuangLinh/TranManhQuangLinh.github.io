@@ -45,12 +45,24 @@ function data(result, word) {
             words += 
             `
                 <li>
-                    <p>${result[i].word}</p>
+                    <div>
+                        <a class='result-word'>${result[i].word}</a>
+                    </div>
                     <span>${definition}</span>
                 </li>\n
             `
         }
         resultElement.innerHTML = words
+        let resultWord = resultElement.getElementsByClassName('result-word')
+        for(let i = 0; i < resultWord.length; i++){
+            resultWord[i].addEventListener('click', e => {
+                let word = e.target.innerHTML
+                searchInput.value = word
+                resultElement.innerHTML = ''
+                searchInput.focus()
+                fetchApi(word)
+            })
+        }
     }
 }
 
@@ -96,7 +108,7 @@ searchInput.addEventListener("keyup", e => {
     }
 })
 
-searchButton.addEventListener("click", e => {
+searchButton.addEventListener("click", () => {
     let word = searchInput.value.replace(/\s+/g, ' ');
     if (word) {
         resultElement.innerHTML = ''
@@ -107,10 +119,11 @@ searchButton.addEventListener("click", e => {
 removeIcon.addEventListener("click", () => {
     searchInput.value = "";
     searchInput.focus();
+    resultElement.innerHTML = ''
     infoText.innerHTML = "Type any existing word and press enter to get meaning, example, synonyms, etc.";
 });
 
-meanLike.addEventListener('click', e => {
+meanLike.addEventListener('click', () => {
     if (!meanLike.classList.contains('active'))
         meanLike.classList.add('active')
     if (spellLike.classList.contains('active'))
@@ -122,7 +135,7 @@ meanLike.addEventListener('click', e => {
     fetchApi(word);
 })
 
-spellLike.addEventListener('click', e => {
+spellLike.addEventListener('click', () => {
     if (!spellLike.classList.contains('active'))
         spellLike.classList.add('active')
     if (meanLike.classList.contains('active'))
@@ -134,7 +147,7 @@ spellLike.addEventListener('click', e => {
     fetchApi(word);
 })
 
-antonyms.addEventListener('click', e => {
+antonyms.addEventListener('click', () => {
     if (!antonyms.classList.contains('active'))
         antonyms.classList.add('active')
     if (spellLike.classList.contains('active'))
@@ -145,3 +158,4 @@ antonyms.addEventListener('click', e => {
     resultElement.innerHTML = ''
     fetchApi(word);
 })
+
