@@ -6,9 +6,13 @@ const searchElement = document.querySelector('.search'),
     spellLike = document.querySelector('#spell_like'),
     antonyms = document.querySelector('#antonyms'),
     resultElement = document.querySelector('#result'),
-    infoText = document.querySelector(".info-text")
+    infoText = document.querySelector(".info-text"),
+    loadingIcon = document.querySelector("#loading-icon"),
+    loadingText = document.querySelector("#loading-text")
 
 function data(result, word) {
+    loadingIcon.classList.remove("display")
+    loadingText.innerHTML = ''
     if (result.length == 0) {
         if (meanLike.classList.contains('active')) {
             infoText.innerHTML = `Không thể tìm thấy từ đồng nghĩa với <span>"${word}"</span>. Mời nhập lại. `
@@ -68,6 +72,8 @@ function data(result, word) {
 
 function fetchApi(word) {
     infoText.style.color = "#000";
+    loadingIcon.classList.add('display')
+    loadingText.innerHTML = 'Loading...'
     if (meanLike.classList.contains('active')) {
         let url = `https://api.datamuse.com/words?rel_syn=${word}&qe=rel_syn&md=dp`;
         fetch(url).then(response => response.json())
@@ -103,6 +109,7 @@ function fetchApi(word) {
 searchInput.addEventListener("keyup", e => {
     let word = e.target.value.replace(/\s+/g, ' ');
     if (e.key == "Enter" && word) {
+        infoText.innerHTML = ''
         resultElement.innerHTML = ''
         fetchApi(word);
     }
